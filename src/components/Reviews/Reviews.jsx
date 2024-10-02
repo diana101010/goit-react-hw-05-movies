@@ -1,7 +1,7 @@
-import Loader from 'components/Loader';
+import Loader from 'components/Loader/Loader';
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovieReviews } from 'services/API';
+import { fetchMovieReviews } from 'services/api';
 import styles from './Reviews.module.css';
 
 const Reviews = () => {

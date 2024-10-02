@@ -16,7 +16,6 @@ const SearchBar = ({ onSearch }) => {
     event.preventDefault();
     if (searchQuery.trim() === '') {
       alert('Enter the film title');
-      return;
     }
 
     onSearch(searchQuery);
@@ -31,25 +30,27 @@ const SearchBar = ({ onSearch }) => {
   }, [location.search]);
 
   return (
-    <form onSubmit={handleSubmit} className={styles.searchForm}>
-      <input
-        type="text"
-        name="searchQuery"
-        value={searchQuery}
-        autoComplete="off"
-        autoFocus
-        placeholder="Search..."
-        onChange={handleQuerySearch}
-        className={styles.searchInput}
-      />
-      <button type="submit" className={styles.searchButton}>
-        Search
-      </button>
-    </form>
+    <>
+      <form onSubmit={handleSubmit} className={styles.searchForm}>
+        <input
+          type="text"
+          name="searchQuery"
+          value={searchQuery}
+          autoComplete="off"
+          autoFocus
+          placeholder="Search..."
+          onChange={handleQuerySearch}
+          className={styles.searchInput}
+        />
+        <button type="submit" className={styles.searchButton}>
+          Search
+        </button>
+      </form>
+    </>
   );
 };
 
-SearchBar.propTypes = {
+SearchBar.protoType = {
   onSearch: PropTypes.func.isRequired,
 };
 

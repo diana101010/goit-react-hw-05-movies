@@ -1,4 +1,4 @@
-import Loader from 'components/Loader';
+import Loader from 'components/Loader/Loader';
 
 import React, { Suspense } from 'react';
 
@@ -11,7 +11,7 @@ import {
   useNavigate,
   useParams,
 } from 'react-router-dom';
-import { fetchMovieDetails } from 'services/API';
+import { fetchMovieDetails } from 'services/api';
 
 import styles from './MovieDetails.module.css';
 

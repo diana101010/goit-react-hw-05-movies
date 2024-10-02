@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { fetchTrending } from 'services/API';
-import Loader from 'components/Loader';
+import { fetchTrending } from 'services/api';
+import Loader from 'components/Loader/Loader';
 import styles from './Home.module.css';
 import { useLocation } from 'react-router-dom';
-import MovieList from 'components/MovieList';
+import MovieList from 'components/MovieList/MovieList';
 
 function Home() {
   const location = useLocation();

@@ -1,11 +1,11 @@
-import Loader from 'components/Loader';
-import MovieList from 'components/MovieList';
-import SearchBar from 'components/SearchBar';
+import Loader from 'components/Loader/Loader';
+import MovieList from 'components/MovieList/MovieList';
+import SearchBar from 'components/SearchBar/SearchBar';
 import React, { useState } from 'react';
 import { useEffect } from 'react';
 
 import { useLocation, useSearchParams } from 'react-router-dom';
-import { fetchSearchMovieByWord } from 'services/API';
+import { fetchSearchMovieByWord } from 'services/api';
 
 function Movies() {
   const [searchParams, setSearchParams] = useSearchParams();

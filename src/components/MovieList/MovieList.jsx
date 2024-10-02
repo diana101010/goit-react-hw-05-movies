@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import styles from './MovieList.module.css';
-import MovieCard from 'components/MovieCard';
+import MovieCard from 'components/MovieCard/MovieCard';
 
 const MovieList = ({ movies, prevLocation }) => {
   return (
