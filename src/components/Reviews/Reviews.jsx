@@ -1,50 +1,48 @@
-import Loader from 'components/Loader/Loader';
-import React, { useEffect, useState } from 'react';
+import { fetchMovieReviews } from 'API/API';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovieReviews } from '../../services/api';
-
-import styles from './Reviews.module.css';
+import { nanoid } from 'nanoid';
+import css from './Reviews.module.css';
+import { Loader } from 'components/Loader/Loader';
 
 const Reviews = () => {
+  const [movieReviews, setMovieReviews] = useState([]);
   const { movieId } = useParams();
-  const [reviews, setReviews] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loader, setLoader] = useState(false);
 
   useEffect(() => {
-    setIsLoading(true);
-    const MovieReviews = async () => {
+    const getReviewsDetails = async () => {
+      setLoader(true);
       try {
-        setIsLoading(true);
-        const movie = await fetchMovieReviews(movieId);
-        setReviews(movie);
+        const { results } = await fetchMovieReviews(movieId);
+        setMovieReviews(results);
       } catch (error) {
-        setError('Something went wrong...');
+        console.log(error.message);
       } finally {
-        setIsLoading(false);
+        setLoader(false);
       }
     };
-    MovieReviews();
+    getReviewsDetails();
   }, [movieId]);
+
+  if (movieReviews.length === 0) {
+    return <p>NO REVIEWS</p>;
+  }
 
   return (
     <>
-      {isLoading && <Loader />}
-      {error && <div>{error}</div>}
-      {reviews.length > 0 ? (
-        <ul className={styles.reviewList}>
-          {reviews.map(review => (
-            <li key={review.id} className={styles.reviewItem}>
-              <h3 className={styles.reviewAuthor}>Author: {review.author} </h3>
-              <p className={styles.reviewContent}>{review.content}</p>
+      <ul className={css.wrapper}>
+        {movieReviews.map(({ author, content }) => {
+          return (
+            <li key={nanoid()}>
+              <h2 className={css.author}>{author}</h2>
+              <p>{content}</p>
             </li>
-          ))}
-        </ul>
-      ) : (
-        <h2>We don't have any reviews for this movie.</h2>
-      )}
+          );
+        })}
+      </ul>
+      {loader && <Loader />}
     </>
   );
 };
-
 export default Reviews;

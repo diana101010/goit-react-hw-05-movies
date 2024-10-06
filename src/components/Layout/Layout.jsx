@@ -1,22 +1,19 @@
-import React from 'react';
-import { NavLink } from 'react-router-dom';
-import styles from './Layout.module.css';
+import { Outlet } from 'react-router-dom';
+import { Suspense } from 'react';
+import { Container, Link, Nav } from './Layout.styled';
+import { Loader } from 'components/Loader/Loader';
 
-const Layout = ({ children }) => {
+const Layout = () => {
   return (
-    <div>
-      <header>
-        <nav className={styles.nav}>
-          <NavLink to="/" className={styles.navLink}>
-            Home
-          </NavLink>
-          <NavLink to="/movies" className={styles.navLink}>
-            Movies
-          </NavLink>
-        </nav>
-      </header>
-      <main>{children}</main>
-    </div>
+    <Container>
+      <Nav>
+        <Link to="/">Home</Link>
+        <Link to="/movies">Movies</Link>
+      </Nav>
+      <Suspense fallback={<Loader />}>
+        <Outlet />
+      </Suspense>
+    </Container>
   );
 };
 

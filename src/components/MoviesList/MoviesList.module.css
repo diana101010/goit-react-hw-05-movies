@@ -1,10 +1,14 @@
-.wrapper {
-  margin: 20px;
-}
-
-.castList {
+.list {
   list-style-type: none;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  grid-gap: 10px;
+  grid-gap: 20px;
+}
+
+.title {
+  text-align: center;
+}
+
+.item {
+  margin: 0 auto;
 }

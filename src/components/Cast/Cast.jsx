@@ -1,55 +1,50 @@
-import Loader from 'components/Loader/Loader';
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import { fetchMovieCast } from 'API/API';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { fetchMovieCast } from 'services/api';
-import styles from './Cast.module.css';
+import { Loader } from 'components/Loader/Loader';
+import css from './Cast.module.css';
 
 const Cast = () => {
+  const [castDetails, setCastDetails] = useState([]);
   const { movieId } = useParams();
-  const [cast, setCast] = useState([]);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(false);
-
+  const [loader, setLoader] = useState(false);
   useEffect(() => {
-    setIsLoading(true);
-    const MovieCast = async () => {
+    const getCastDetails = async () => {
       try {
-        setIsLoading(true);
-        const movie = await fetchMovieCast(movieId);
-        setCast(movie);
+        const { cast } = await fetchMovieCast(movieId);
+        setCastDetails(cast);
       } catch (error) {
-        setError('Something went wrong...');
+        console.log(error.message);
       } finally {
-        setIsLoading(false);
+        setLoader(false);
       }
     };
-    MovieCast();
+    getCastDetails();
   }, [movieId]);
 
   return (
     <>
-      {isLoading && <Loader />}
-      {error && <div>{error}</div>}
-      <ul className={styles.castList}>
-        {Array.isArray(cast) &&
-          cast?.map(castEl => {
+      <div className={css.wrapper}>
+        <ul className={css.castList}>
+          {castDetails.map(({ id, name, profile_path, character }) => {
             return (
-              <li key={castEl.id} className={styles.castItem}>
+              <li key={id}>
                 <img
                   src={
-                    castEl.profile_path
-                      ? `https://image.tmdb.org/t/p/w300${castEl.profile_path}`
-                      : { error }
+                    profile_path
+                      ? `https://image.tmdb.org/t/p/w200${profile_path}`
+                      : `https://upload.wikimedia.org/wikipedia/commons/a/a2/Person_Image_Placeholder.png`
                   }
-                  alt={`${castEl.name} portrait`}
+                  alt={name}
                 />
-                <p className={styles.name}>{castEl.name}</p>
-                <p className={styles.character}>{castEl.character} </p>
+                <h3>{name}</h3>
+                <p>{character}</p>
               </li>
             );
           })}
-      </ul>
+        </ul>
+      </div>
+      {loader && <Loader />}
     </>
   );
 };
